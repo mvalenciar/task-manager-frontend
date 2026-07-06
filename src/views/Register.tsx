@@ -52,6 +52,7 @@ const Register = () => {
 									</a>
 								</div>
 								<Input
+									aria-label="password"
 									id="password"
 									type="password"
 									required
