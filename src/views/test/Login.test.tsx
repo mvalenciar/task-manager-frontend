@@ -41,6 +41,10 @@ describe("Login", () => {
 	});
 
 	test("should call taskApi.post when form is submitted", async () => {
+		vi.mocked(taskApi.post).mockResolvedValue({
+			data: { token: "token-falso-jwt" },
+		});
+
 		const { emailField, passwordField, user, button } = setupRenderLogin();
 
 		await user.type(emailField, "test@test.com");
