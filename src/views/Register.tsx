@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -9,14 +11,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { taskApi } from "@/services/api";
 
 const Register = () => {
-	const [Email, setEmail] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(Email, password);
+		console.log(email, password);
+
+		try {
+			const response = await taskApi.post("/users/register", {
+				email,
+				password,
+			});
+
+			alert(response.data.message);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
