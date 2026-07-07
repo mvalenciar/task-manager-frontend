@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { taskApi } from "@/services/api";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -73,6 +74,9 @@ const Login = () => {
 							</div>
 							<div className="grid gap-2">
 								<Button>Ingresar</Button>
+							</div>
+							<div className="grid gap-2">
+								<Link to="/register">¿No tienes cuenta? Regístrate aquí</Link>
 							</div>
 						</div>
 					</form>
