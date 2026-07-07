@@ -17,7 +17,6 @@ export const Login = () => {
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(email, password);
 
 		try {
 			const response = await taskApi.post("/users/login", {
@@ -25,7 +24,9 @@ export const Login = () => {
 				password,
 			});
 
-			console.log(response.data);
+			localStorage.setItem("task_token", response.data.token);
+
+			alert("¡Inicio de sesión exitoso!");
 		} catch (error) {
 			console.log(error);
 		}
