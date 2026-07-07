@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { taskApi } from "@/services/api";
 
-export const Login = () => {
+const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -81,3 +81,5 @@ export const Login = () => {
 		</div>
 	);
 };
+
+export default Login;

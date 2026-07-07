@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 import { taskApi } from "@/services/api";
-import { Login } from "../Login";
+import Login from "../Login";
 
 vi.mock("@/services/api", () => ({
 	taskApi: {
