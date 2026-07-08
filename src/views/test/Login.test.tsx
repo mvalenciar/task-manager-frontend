@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 import { taskApi } from "@/services/api";
 import Login from "../Login";
+import { BrowserRouter } from "react-router-dom";
 
 vi.mock("@/services/api", () => ({
 	taskApi: {
@@ -11,7 +12,11 @@ vi.mock("@/services/api", () => ({
 }));
 
 const setupRenderLogin = () => {
-	render(<Login />);
+	render(
+		<BrowserRouter>
+			<Login />,
+		</BrowserRouter>,
+	);
 	return {
 		emailField: screen.getByPlaceholderText("email@example.com"),
 		passwordField: screen.getByLabelText("Contraseña"),
