@@ -4,7 +4,7 @@ import TaskList from "./TaskList";
 
 const Dashboard = () => {
 	return (
-		<div className="min-h-screen bg-slate-50/50">
+		<div className="min-h-screen">
 			<CustomHeader
 				title="¡Bienvenidos de nuevo!"
 				description="Aquí tienes todo lo que necesitas para empezar a gestionar tus tareas."
