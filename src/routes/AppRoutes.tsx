@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import Dashboard from "@/views/Dashboard";
-import Login from "@/views/Login";
-import Register from "@/views/Register";
+import Dashboard from "@/views/Dashboard/Dashboard";
+import Login from "@/views/Login/Login";
+import Register from "@/views/Register/Register";
 import ProtectedRoute from "./ProtectedRoute";
 
 export const AppRoutes = () => {
