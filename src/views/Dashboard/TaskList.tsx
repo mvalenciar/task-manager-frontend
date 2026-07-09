@@ -1,3 +1,8 @@
+import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+
+import { useCallback, useEffect, useState } from "react";
+
+import { getTasksByApi } from "@/actions/get-tasks-by-api";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -22,9 +27,27 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+
+import type { Task } from "@/interface/task.interface";
 
 const TaskList = () => {
+	const [tasks, setTasks] = useState<Task[]>([]);
+	const getTaskList = useCallback(async () => {
+		try {
+			const token = localStorage.getItem("task_token");
+			if (token) {
+				const taskList = await getTasksByApi(token);
+				setTasks(taskList);
+			}
+		} catch (error) {
+			console.log("Error al obtener la lista de tareas", error);
+		}
+	}, []);
+
+	useEffect(() => {
+		getTaskList();
+	}, [getTaskList]);
+
 	return (
 		<Card className="w-full">
 			<CardHeader>
@@ -44,36 +67,36 @@ const TaskList = () => {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{/* 🚀 ARREGLADO: Envoltura obligatoria de fila */}
-						<TableRow>
-							<TableCell className="font-medium">Tarea 1</TableCell>
-							<TableCell>Descripción de la tarea 1</TableCell>
-							<TableCell>{new Date().toLocaleDateString()}</TableCell>
-							<TableCell className="text-right">
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button variant="ghost" size="icon" className="h-8 w-8">
-											<MoreHorizontalIcon className="h-4 w-4" />
-											<span className="sr-only">Open menu</span>
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end">
-										<DropdownMenuGroup>
-											<DropdownMenuItem>
-												<PencilIcon className="mr-2 h-4 w-4" />
-												Edit
+						{tasks.map((task) => (
+							<TableRow key={task.id}>
+								<TableCell className="font-medium">{task.title}</TableCell>
+								<TableCell>{task.description}</TableCell>
+								<TableCell>{task.createdAt}</TableCell>
+								<TableCell className="text-right">
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Button variant="ghost" size="icon" className="h-8 w-8">
+												<MoreHorizontalIcon className="h-4 w-4" />
+												<span className="sr-only">Open menu</span>
+											</Button>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent align="end">
+											<DropdownMenuGroup>
+												<DropdownMenuItem>
+													<PencilIcon className="mr-2 h-4 w-4" />
+													Edit
+												</DropdownMenuItem>
+											</DropdownMenuGroup>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem className="text-destructive focus:text-destructive">
+												<TrashIcon className="mr-2 h-4 w-4" />
+												Delete
 											</DropdownMenuItem>
-										</DropdownMenuGroup>
-										<DropdownMenuSeparator />
-										{/* Ajuste de color destructivo para Shadcn estable */}
-										<DropdownMenuItem className="text-destructive focus:text-destructive">
-											<TrashIcon className="mr-2 h-4 w-4" />
-											Delete
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</TableCell>
-						</TableRow>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</TableCell>
+							</TableRow>
+						))}
 					</TableBody>
 				</Table>
 			</CardContent>
