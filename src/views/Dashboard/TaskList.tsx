@@ -27,9 +27,10 @@ import type { Task } from "@/interface/task.interface";
 
 interface TaskListProps {
 	tasks: Task[];
+	onDeleteTask: (id: number) => Promise<void>;
 }
 
-const TaskList = ({ tasks }: TaskListProps) => {
+const TaskList = ({ tasks, onDeleteTask }: TaskListProps) => {
 	return (
 		<Card className="w-full">
 			<CardHeader>
@@ -70,7 +71,12 @@ const TaskList = ({ tasks }: TaskListProps) => {
 												</DropdownMenuItem>
 											</DropdownMenuGroup>
 											<DropdownMenuSeparator />
-											<DropdownMenuItem className="text-destructive focus:text-destructive">
+											<DropdownMenuItem
+												className="text-destructive focus:text-destructive"
+												onClick={() => {
+													onDeleteTask(task.id);
+												}}
+											>
 												<TrashIcon className="mr-2 h-4 w-4" />
 												Delete
 											</DropdownMenuItem>

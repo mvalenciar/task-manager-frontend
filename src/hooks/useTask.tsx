@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { createTaskByApi } from "@/actions/create-task-by-api";
+import { deleteTaskByApi } from "@/actions/delete-task-by-api";
 import { getTasksByApi } from "@/actions/get-tasks-by-api";
 
 import type { Task } from "@/interface/task.interface";
@@ -44,6 +45,24 @@ export const useTask = () => {
 		}
 	};
 
+	const deleteTask = async (taskId: number) => {
+		try {
+			const token = localStorage.getItem("task_token");
+			if (!token) {
+				return;
+			}
+
+			const isTaskDeleted = await deleteTaskByApi(taskId, token);
+
+			if (isTaskDeleted) {
+				alert("✅ Tarea eliminada con éxito!");
+				await getTaskList();
+			}
+		} catch (error) {
+			console.error("❌ Error al eliminar la tarea", error);
+		}
+	};
+
 	return {
 		// values
 		tasks,
@@ -54,5 +73,6 @@ export const useTask = () => {
 		setDescription,
 		getTaskList,
 		createTask,
+		deleteTask,
 	};
 };
