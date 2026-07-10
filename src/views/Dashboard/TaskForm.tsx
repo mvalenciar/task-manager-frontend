@@ -9,7 +9,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const TaskForm = () => {
+interface TaskFormProps {
+	title: string;
+	description: string;
+	setTitle: (title: string) => void;
+	setDescription: (description: string) => void;
+	onCreateTask: () => Promise<void>;
+}
+
+const TaskForm = ({
+	title,
+	description,
+	setTitle,
+	setDescription,
+	onCreateTask,
+}: TaskFormProps) => {
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		await onCreateTask();
+	};
+
 	return (
 		<Card className="w-full mx-auto">
 			<CardHeader>
@@ -19,11 +38,18 @@ const TaskForm = () => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div className="flex flex-col gap-4">
 						<div className="grid gap-2">
 							<Label htmlFor="task">Tarea</Label>
-							<Input id="task" type="text" placeholder="tarea_1" required />
+							<Input
+								id="task"
+								type="text"
+								placeholder="tarea_1"
+								required
+								value={title}
+								onChange={(e) => setTitle(String(e.target.value))}
+							/>
 						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="description">Descripción</Label>
@@ -32,6 +58,8 @@ const TaskForm = () => {
 								type="text"
 								placeholder="Descripción de la tarea"
 								required
+								value={description}
+								onChange={(e) => setDescription(String(e.target.value))}
 							/>
 						</div>
 						<div className="grid gap-2">
