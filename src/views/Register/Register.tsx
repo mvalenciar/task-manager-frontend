@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,9 +20,8 @@ const Register = () => {
 
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(email, password);
 
 		try {
 			const response = await taskApi.post("/users/register", {
@@ -33,6 +33,12 @@ const Register = () => {
 
 			navigate("/login");
 		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				const errorMessage =
+					error.response?.data?.error || "Error al conectar con el servidor.";
+				alert(`❌ ${errorMessage}`);
+			}
+
 			console.log(error);
 		}
 	};

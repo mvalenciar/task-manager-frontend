@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { taskApi } from "@/services/api";
+import axios from "axios";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -32,7 +33,14 @@ const Login = () => {
 			alert("¡Inicio de sesión exitoso!");
 			navigate("/dashboard");
 		} catch (error) {
-			console.log(error);
+			if (axios.isAxiosError(error)) {
+				// Leemos de forma segura el mensaje que programamos en el backend (req.body.error)
+				const errorMessage =
+					error.response?.data?.error || "Error al conectar con el servidor.";
+				alert(`❌ ${errorMessage}`);
+			} else {
+				console.error("Error inesperado de JavaScript:", error);
+			}
 		}
 	};
 	return (

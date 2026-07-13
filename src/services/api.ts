@@ -11,7 +11,9 @@ taskApi.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		if (axios.isAxiosError(error)) {
-			const unAuthorized: boolean = error.response?.status === 401;
+			const isLoginRequest = error.config?.url?.includes("/users/login");
+			const unAuthorized: boolean =
+				error.response?.status === 401 && !isLoginRequest;
 			if (unAuthorized) {
 				localStorage.removeItem("task_token");
 				alert(
