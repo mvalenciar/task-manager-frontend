@@ -6,7 +6,7 @@ import { getTasksByApi } from "@/actions/get-tasks-by-api";
 import { toggleTaskByApi } from "@/actions/toggle-task-by-api";
 import { updateTaskByApi } from "@/actions/update-task-by-api";
 
-import type { Task } from "@/interface/task.interface";
+import type { Task } from "@/interfaces/task.interface";
 
 export const useTask = () => {
 	const [tasks, setTasks] = useState<Task[]>([]);

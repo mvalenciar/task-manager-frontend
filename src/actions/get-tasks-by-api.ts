@@ -1,4 +1,4 @@
-import type { Task } from "@/interface/task.interface";
+import type { Task } from "@/interfaces/task.interface";
 import { taskApi } from "@/services/api";
 
 export const getTasksByApi = async (token: string): Promise<Task[]> => {

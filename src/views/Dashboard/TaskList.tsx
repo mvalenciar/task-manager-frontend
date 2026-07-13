@@ -1,6 +1,6 @@
 import { CheckIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 
-import DialogEditTask from "@/components/custom/DialogEditTask";
+import DialogEditTask from "@/views/Dashboard/DialogEditTask";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -26,7 +26,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import type { Task } from "@/interface/task.interface";
+import type { Task } from "@/interfaces/task.interface";
 
 interface TaskListProps {
 	tasks: Task[];
