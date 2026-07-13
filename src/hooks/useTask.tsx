@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { createTaskByApi } from "@/actions/create-task-by-api";
 import { deleteTaskByApi } from "@/actions/delete-task-by-api";
 import { getTasksByApi } from "@/actions/get-tasks-by-api";
+import { updateTaskByApi } from "@/actions/update-task-by-api";
 
 import type { Task } from "@/interface/task.interface";
 
@@ -63,6 +64,33 @@ export const useTask = () => {
 		}
 	};
 
+	const updateTask = async (
+		taskId: number,
+		title: string,
+		description: string,
+	) => {
+		try {
+			const token = localStorage.getItem("task_token");
+			if (!token) {
+				return;
+			}
+
+			const isTaskUpdated = await updateTaskByApi(
+				taskId,
+				title,
+				description,
+				token,
+			);
+
+			if (isTaskUpdated) {
+				alert("✅ Tarea actualizada con éxito!");
+				await getTaskList();
+			}
+		} catch (error) {
+			console.error("❌ Error al actualizar la tarea", error);
+		}
+	};
+
 	return {
 		// values
 		tasks,
@@ -74,5 +102,6 @@ export const useTask = () => {
 		getTaskList,
 		createTask,
 		deleteTask,
+		updateTask,
 	};
 };

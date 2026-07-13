@@ -14,6 +14,7 @@ const Dashboard = () => {
 		getTaskList,
 		createTask,
 		deleteTask,
+		updateTask,
 	} = useTask();
 
 	useEffect(() => {
@@ -36,7 +37,11 @@ const Dashboard = () => {
 					/>
 				</div>
 				<div className="md:col-span-2">
-					<TaskList tasks={tasks} onDeleteTask={deleteTask} />
+					<TaskList
+						tasks={tasks}
+						onDeleteTask={deleteTask}
+						onUpdateTask={updateTask}
+					/>
 				</div>
 			</div>
 		</div>

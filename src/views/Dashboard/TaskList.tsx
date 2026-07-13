@@ -1,4 +1,6 @@
-import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { MoreHorizontalIcon, TrashIcon } from "lucide-react";
+
+import DialogEditTask from "@/components/custom/DialogEditTask";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -23,14 +25,20 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+
 import type { Task } from "@/interface/task.interface";
 
 interface TaskListProps {
 	tasks: Task[];
 	onDeleteTask: (id: number) => Promise<void>;
+	onUpdateTask: (
+		id: number,
+		title: string,
+		description: string,
+	) => Promise<void>;
 }
 
-const TaskList = ({ tasks, onDeleteTask }: TaskListProps) => {
+const TaskList = ({ tasks, onDeleteTask, onUpdateTask }: TaskListProps) => {
 	return (
 		<Card className="w-full">
 			<CardHeader>
@@ -65,9 +73,13 @@ const TaskList = ({ tasks, onDeleteTask }: TaskListProps) => {
 										</DropdownMenuTrigger>
 										<DropdownMenuContent align="end">
 											<DropdownMenuGroup>
-												<DropdownMenuItem>
-													<PencilIcon className="mr-2 h-4 w-4" />
-													Edit
+												<DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+													<DialogEditTask
+														taskId={task.id}
+														title={task.title}
+														description={task.description}
+														onUpdateTask={onUpdateTask}
+													/>
 												</DropdownMenuItem>
 											</DropdownMenuGroup>
 											<DropdownMenuSeparator />
@@ -78,7 +90,7 @@ const TaskList = ({ tasks, onDeleteTask }: TaskListProps) => {
 												}}
 											>
 												<TrashIcon className="mr-2 h-4 w-4" />
-												Delete
+												Eliminar
 											</DropdownMenuItem>
 										</DropdownMenuContent>
 									</DropdownMenu>
