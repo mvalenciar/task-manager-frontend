@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,8 @@ const Register = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const navigate = useNavigate();
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(email, password);
@@ -27,6 +30,8 @@ const Register = () => {
 			});
 
 			alert(response.data.message);
+
+			navigate("/login");
 		} catch (error) {
 			console.log(error);
 		}
