@@ -1,4 +1,4 @@
-import { MoreHorizontalIcon, TrashIcon } from "lucide-react";
+import { CheckIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 
 import DialogEditTask from "@/components/custom/DialogEditTask";
 import { Button } from "@/components/ui/button";
@@ -36,9 +36,15 @@ interface TaskListProps {
 		title: string,
 		description: string,
 	) => Promise<void>;
+	onToggleTask: (id: number, completed: boolean) => Promise<void>;
 }
 
-const TaskList = ({ tasks, onDeleteTask, onUpdateTask }: TaskListProps) => {
+const TaskList = ({
+	tasks,
+	onDeleteTask,
+	onUpdateTask,
+	onToggleTask,
+}: TaskListProps) => {
 	return (
 		<Card className="w-full">
 			<CardHeader>
@@ -53,6 +59,7 @@ const TaskList = ({ tasks, onDeleteTask, onUpdateTask }: TaskListProps) => {
 						<TableRow>
 							<TableHead>Tarea</TableHead>
 							<TableHead>Descripción</TableHead>
+							<TableHead>Estado</TableHead>
 							<TableHead>Fecha de creación</TableHead>
 							<TableHead className="text-right">Acciones</TableHead>
 						</TableRow>
@@ -62,6 +69,9 @@ const TaskList = ({ tasks, onDeleteTask, onUpdateTask }: TaskListProps) => {
 							<TableRow key={task.id}>
 								<TableCell className="font-medium">{task.title}</TableCell>
 								<TableCell>{task.description}</TableCell>
+								<TableCell>
+									{task.completed ? "Completada" : "Pendiente"}
+								</TableCell>
 								<TableCell>{task.createdAt}</TableCell>
 								<TableCell className="text-right">
 									<DropdownMenu>
@@ -81,10 +91,17 @@ const TaskList = ({ tasks, onDeleteTask, onUpdateTask }: TaskListProps) => {
 														onUpdateTask={onUpdateTask}
 													/>
 												</DropdownMenuItem>
+												<DropdownMenuItem
+													className="cursor-pointer"
+													onClick={() => onToggleTask(task.id, task.completed)}
+												>
+													<CheckIcon className="mr-2 h-4 w-4" />
+													Completada
+												</DropdownMenuItem>
 											</DropdownMenuGroup>
 											<DropdownMenuSeparator />
 											<DropdownMenuItem
-												className="text-destructive focus:text-destructive"
+												className="text-destructive focus:text-destructive cursor-pointer"
 												onClick={() => {
 													onDeleteTask(task.id);
 												}}

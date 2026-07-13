@@ -44,71 +44,69 @@ const DialogEditTask = ({
 	};
 
 	return (
-		<div className="z-50">
-			<Dialog>
-				<DialogTrigger asChild>
-					<button
-						type="button"
-						className="w-full flex items-center px-2 py-1.5 text-sm text-zinc-700 hover:bg-zinc-100 rounded-sm cursor-pointer"
-					>
-						<PencilIcon className="mr-2 h-4 w-4" />
-						Editar
-					</button>
-				</DialogTrigger>
+		<Dialog>
+			<DialogTrigger asChild>
+				<button
+					type="button"
+					className="w-full flex items-center px-1.5 py-1 text-sm text-zinc-700 hover:bg-zinc-100 rounded-md cursor-pointer"
+				>
+					<PencilIcon className="mr-2 h-4 w-4" />
+					Editar
+				</button>
+			</DialogTrigger>
 
-				<DialogContent className="sm:max-w-sm">
-					<form onSubmit={handleSubmit}>
-						<DialogHeader>
-							<DialogTitle>Editar tarea</DialogTitle>
-							<DialogDescription>
-								Edita la tarea seleccionada. haz click en el botón "Actualizar"
-								para guardar los cambios.
-							</DialogDescription>
-						</DialogHeader>
-						<FieldGroup>
-							<Field>
-								<Label htmlFor="task">Tarea</Label>
-								<Input
-									id="task"
-									type="text"
-									placeholder="tarea_1"
-									required
-									value={newTitle}
-									onChange={(e) => setNewTitle(String(e.target.value))}
-									onKeyDown={(e) => {
-										if (e.key === " ") {
-											e.stopPropagation();
-										}
-									}}
-								/>
-							</Field>
-							<Field>
-								<Label htmlFor="description">Descripción</Label>
-								<Input
-									id="description"
-									type="text"
-									placeholder="Descripción de la tarea"
-									required
-									value={newDescription}
-									onChange={(e) => setNewDescription(String(e.target.value))}
-									onKeyDown={(e) => {
-										if (e.key === " ") {
-											e.stopPropagation();
-										}
-									}}
-								/>
-							</Field>
-						</FieldGroup>
-						<DialogFooter>
-							<DialogClose asChild>
-								<Button variant={"outline"}>Cancelar</Button>
-							</DialogClose>
-							<Button type="submit">Actualizar</Button>
-						</DialogFooter>
-					</form>
-				</DialogContent>
-			</Dialog>
-		</div>
+			<DialogContent className="sm:max-w-sm">
+				<form onSubmit={handleSubmit}>
+					<DialogHeader>
+						<DialogTitle>Editar tarea</DialogTitle>
+						<DialogDescription>
+							Edita la tarea seleccionada. haz click en el botón "Actualizar"
+							para guardar los cambios.
+						</DialogDescription>
+					</DialogHeader>
+					<FieldGroup>
+						<Field>
+							<Label htmlFor="task">Tarea</Label>
+							<Input
+								id="task"
+								type="text"
+								placeholder="tarea_1"
+								required
+								value={newTitle}
+								onChange={(e) => setNewTitle(String(e.target.value))}
+								onKeyDown={(e) => {
+									if (e.key === " ") {
+										e.stopPropagation();
+									}
+								}}
+							/>
+						</Field>
+						<Field>
+							<Label htmlFor="description">Descripción</Label>
+							<Input
+								id="description"
+								type="text"
+								placeholder="Descripción de la tarea"
+								required
+								value={newDescription}
+								onChange={(e) => setNewDescription(String(e.target.value))}
+								onKeyDown={(e) => {
+									if (e.key === " ") {
+										e.stopPropagation();
+									}
+								}}
+							/>
+						</Field>
+					</FieldGroup>
+					<DialogFooter>
+						<DialogClose asChild>
+							<Button variant={"outline"}>Cancelar</Button>
+						</DialogClose>
+						<Button type="submit">Actualizar</Button>
+					</DialogFooter>
+				</form>
+			</DialogContent>
+		</Dialog>
 	);
 };
 

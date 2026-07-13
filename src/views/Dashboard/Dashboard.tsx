@@ -15,6 +15,7 @@ const Dashboard = () => {
 		createTask,
 		deleteTask,
 		updateTask,
+		toggleTask,
 	} = useTask();
 
 	useEffect(() => {
@@ -41,6 +42,7 @@ const Dashboard = () => {
 						tasks={tasks}
 						onDeleteTask={deleteTask}
 						onUpdateTask={updateTask}
+						onToggleTask={toggleTask}
 					/>
 				</div>
 			</div>

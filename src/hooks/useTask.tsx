@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { createTaskByApi } from "@/actions/create-task-by-api";
 import { deleteTaskByApi } from "@/actions/delete-task-by-api";
 import { getTasksByApi } from "@/actions/get-tasks-by-api";
+import { toggleTaskByApi } from "@/actions/toggle-task-by-api";
 import { updateTaskByApi } from "@/actions/update-task-by-api";
 
 import type { Task } from "@/interface/task.interface";
@@ -91,6 +92,20 @@ export const useTask = () => {
 		}
 	};
 
+	const toggleTask = async (taskId: number, completed: boolean) => {
+		const token = localStorage.getItem("task_token");
+		if (!token) {
+			return;
+		}
+
+		const isToggled = await toggleTaskByApi(taskId, completed, token);
+
+		if (isToggled) {
+			alert("✅ Tarea actualizada con éxito!");
+			await getTaskList();
+		}
+	};
+
 	return {
 		// values
 		tasks,
@@ -103,5 +118,6 @@ export const useTask = () => {
 		createTask,
 		deleteTask,
 		updateTask,
+		toggleTask,
 	};
 };
