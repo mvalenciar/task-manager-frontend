@@ -27,7 +27,7 @@ const Home = () => {
 			{/* 📢 TÍTULO PRINCIPAL IMPONENTE */}
 			<h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-900 max-w-3xl leading-tight">
 				Gestiona tus proyectos y tareas en{" "}
-				<span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+				<span className="bg-linear-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
 					Tiempo Real
 				</span>
 			</h1>
