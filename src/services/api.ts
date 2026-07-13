@@ -10,16 +10,18 @@ export const taskApi = axios.create({
 taskApi.interceptors.response.use(
 	(response) => response,
 	async (error) => {
-		const unAuthorized: boolean =
-			error.response && error.response.status === 401;
-		if (unAuthorized) {
-			localStorage.removeItem("task_token");
-			alert(
-				"⚠️ Tu sesión ha expirado por seguridad. Por favor, inicia sesión nuevamente.",
-			);
+		if (axios.isAxiosError(error)) {
+			const unAuthorized: boolean = error.response?.status === 401;
+			if (unAuthorized) {
+				localStorage.removeItem("task_token");
+				alert(
+					"⚠️ Tu sesión ha expirado por seguridad. Por favor, inicia sesión nuevamente.",
+				);
 
-			window.location.href = "/login";
+				window.location.href = "/login";
+			}
 		}
+
 		return Promise.reject(error);
 	},
 );
