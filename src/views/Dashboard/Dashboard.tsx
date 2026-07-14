@@ -1,23 +1,16 @@
+//Hooks
 import { useEffect } from "react";
+//Components
 import CustomHeader from "@/components/custom/CustomHeader";
-import { useTask } from "@/hooks/useTask";
-import TaskForm from "./TaskForm";
-import TaskList from "./TaskList";
-import DropdownMenuAvatar from "./DropdownMenuAvatar";
+import DropdownMenuAvatar from "@/features/tasks/components/DropdownMenuAvatar";
+import TaskForm from "@/features/tasks/components/TaskForm";
+import TaskList from "@/features/tasks/components/TaskList";
+//Custom Hooks
+import { useTask } from "@/features/tasks/hooks/useTask";
 
 const Dashboard = () => {
-	const {
-		tasks,
-		title,
-		description,
-		setTitle,
-		setDescription,
-		getTaskList,
-		createTask,
-		deleteTask,
-		updateTask,
-		toggleTask,
-	} = useTask();
+	const { tasks, getTaskList, createTask, deleteTask, updateTask, toggleTask } =
+		useTask();
 
 	useEffect(() => {
 		getTaskList();
@@ -34,13 +27,7 @@ const Dashboard = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto p-4 md:p-6">
 				<div className="md:col-span-1">
-					<TaskForm
-						title={title}
-						description={description}
-						setTitle={setTitle}
-						setDescription={setDescription}
-						onCreateTask={createTask}
-					/>
+					<TaskForm onCreateTask={createTask} />
 				</div>
 				<div className="md:col-span-2">
 					<TaskList

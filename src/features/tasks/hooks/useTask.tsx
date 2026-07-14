@@ -1,18 +1,15 @@
 import { useCallback, useState } from "react";
 
-import { createTaskByApi } from "@/actions/create-task-by-api";
-import { deleteTaskByApi } from "@/actions/delete-task-by-api";
-import { getTasksByApi } from "@/actions/get-tasks-by-api";
-import { toggleTaskByApi } from "@/actions/toggle-task-by-api";
-import { updateTaskByApi } from "@/actions/update-task-by-api";
-
 import type { Task } from "@/interfaces/task.interface";
+
+import { createTaskByApi } from "../actions/create-task-by-api";
+import { deleteTaskByApi } from "../actions/delete-task-by-api";
+import { getTasksByApi } from "../actions/get-tasks-by-api";
+import { toggleTaskByApi } from "../actions/toggle-task-by-api";
+import { updateTaskByApi } from "../actions/update-task-by-api";
 
 export const useTask = () => {
 	const [tasks, setTasks] = useState<Task[]>([]);
-
-	const [title, setTitle] = useState("");
-	const [description, setDescription] = useState("");
 
 	const getTaskList = useCallback(async () => {
 		try {
@@ -26,7 +23,7 @@ export const useTask = () => {
 		}
 	}, []);
 
-	const createTask = async () => {
+	const createTask = async (title: string, description: string) => {
 		try {
 			const token = localStorage.getItem("task_token");
 
@@ -38,8 +35,7 @@ export const useTask = () => {
 
 			if (isTaskCreated) {
 				alert("✅ Tarea creada con éxito!");
-				setTitle("");
-				setDescription("");
+
 				await getTaskList();
 			}
 		} catch (error) {
@@ -109,11 +105,11 @@ export const useTask = () => {
 	return {
 		// values
 		tasks,
-		title,
-		description,
+		//title,
+		//description,
 		// actions
-		setTitle,
-		setDescription,
+		//setTitle,
+		//setDescription,
 		getTaskList,
 		createTask,
 		deleteTask,

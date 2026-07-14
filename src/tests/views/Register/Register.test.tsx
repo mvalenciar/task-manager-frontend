@@ -1,8 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter } from "react-router-dom";
+
 import { describe, expect, test, vi } from "vitest";
+
 import { taskApi } from "@/services/api";
-import Register from "../Register/Register";
+import Register from "@/views/Register/Register";
 
 vi.mock("@/services/api", () => ({
 	taskApi: {
@@ -11,7 +14,11 @@ vi.mock("@/services/api", () => ({
 }));
 
 const setupRenderRegister = () => {
-	render(<Register />);
+	render(
+		<BrowserRouter>
+			<Register />
+		</BrowserRouter>,
+	);
 	return {
 		emailField: screen.getByPlaceholderText("email@example.com"),
 		passwordField: screen.getByLabelText("Contraseña"),

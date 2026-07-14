@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { describe, expect, test, vi } from "vitest";
 
 import { taskApi } from "@/services/api";
-import Login from "../Login/Login";
+import Login from "@/views/Login/Login";
 
 vi.mock("@/services/api", () => ({
 	taskApi: {

@@ -1,6 +1,6 @@
+// biome-ignore assist/source/organizeImports: <false positive>
 import { CheckIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 
-import DialogEditTask from "@/views/Dashboard/DialogEditTask";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -25,6 +25,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import DialogEditTask from "@/features/tasks/components/DialogEditTask";
 
 import type { Task } from "@/interfaces/task.interface";
 

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,23 +12,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface TaskFormProps {
-	title: string;
-	description: string;
-	setTitle: (title: string) => void;
-	setDescription: (description: string) => void;
-	onCreateTask: () => Promise<void>;
+	onCreateTask: (title: string, description: string) => Promise<void>;
 }
 
-const TaskForm = ({
-	title,
-	description,
-	setTitle,
-	setDescription,
-	onCreateTask,
-}: TaskFormProps) => {
+const TaskForm = ({ onCreateTask }: TaskFormProps) => {
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
+
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		await onCreateTask();
+
+		await onCreateTask(title, description);
 	};
 
 	return (
