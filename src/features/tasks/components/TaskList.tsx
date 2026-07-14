@@ -1,4 +1,3 @@
-// biome-ignore assist/source/organizeImports: <false positive>
 import { CheckIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
