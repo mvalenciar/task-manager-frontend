@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { describe, expect, test, vi } from "vitest";
+
 import TaskList from "@/features/tasks/components/TaskList";
 import { createMockTask } from "@/tests/tasks.factory";
-import userEvent from "@testing-library/user-event";
-import { useState } from "react";
 
 vi.mock("@/features/tasks/components/DialogEditTask", () => ({
 	default: () => <div data-testid="mock-dialog">Edit Task</div>,
@@ -73,5 +74,40 @@ describe("TaskList", () => {
 
 		expect(mockOnToggleTask).toHaveBeenCalledTimes(1);
 		expect(mockOnToggleTask).toHaveBeenCalledWith(1, false);
+	});
+
+	test("should render 'Completada' status when task is completed", () => {
+		const completedTask = [
+			createMockTask({ id: 99, title: "Task Completed", completed: true }),
+		];
+
+		render(
+			<TaskList
+				tasks={completedTask}
+				onDeleteTask={mockOnDeleteTask}
+				onUpdateTask={mockOnUpdateTask}
+				onToggleTask={mockOnToggleTask}
+			/>,
+		);
+
+		expect(screen.getByText("Completada")).toBeInTheDocument();
+		expect(screen.queryByText("Pendiente")).not.toBeInTheDocument();
+	});
+
+	test("should render correctly when the task list is empty", () => {
+		render(
+			<TaskList
+				tasks={[]}
+				onDeleteTask={mockOnDeleteTask}
+				onUpdateTask={mockOnUpdateTask}
+				onToggleTask={mockOnToggleTask}
+			/>,
+		);
+
+		expect(screen.getByText("Lista de tareas")).toBeInTheDocument();
+
+		expect(
+			screen.queryByRole("row", { name: /open menu/i }),
+		).not.toBeInTheDocument();
 	});
 });
