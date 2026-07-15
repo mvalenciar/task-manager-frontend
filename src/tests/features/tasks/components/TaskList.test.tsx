@@ -10,35 +10,35 @@ vi.mock("@/features/tasks/components/DialogEditTask", () => ({
 	default: () => <div data-testid="mock-dialog">Edit Task</div>,
 }));
 
-describe("TaskList", () => {
-	const mockTasks = Array.from({ length: 10 }, (_, index) =>
-		createMockTask({
-			id: index + 1,
-			title: `Task_${index + 1}`,
-			description: `Description_${index + 1}`,
-		}),
+const mockTasks = Array.from({ length: 10 }, (_, index) =>
+	createMockTask({
+		id: index + 1,
+		title: `Task_${index + 1}`,
+		description: `Description_${index + 1}`,
+	}),
+);
+
+const mockOnDeleteTask = vi.fn();
+const mockOnUpdateTask = vi.fn();
+const mockOnToggleTask = vi.fn();
+
+const setupRenderTaskList = () => {
+	render(
+		<TaskList
+			tasks={mockTasks}
+			onDeleteTask={mockOnDeleteTask}
+			onUpdateTask={mockOnUpdateTask}
+			onToggleTask={mockOnToggleTask}
+		/>,
 	);
 
-	const mockOnDeleteTask = vi.fn();
-	const mockOnUpdateTask = vi.fn();
-	const mockOnToggleTask = vi.fn();
-
-	const setupRenderTaskList = () => {
-		render(
-			<TaskList
-				tasks={mockTasks}
-				onDeleteTask={mockOnDeleteTask}
-				onUpdateTask={mockOnUpdateTask}
-				onToggleTask={mockOnToggleTask}
-			/>,
-		);
-
-		return {
-			user: userEvent.setup(),
-			menuTriggers: screen.getAllByRole("button", { name: /open menu/i }),
-		};
+	return {
+		user: userEvent.setup(),
+		menuTriggers: screen.getAllByRole("button", { name: /open menu/i }),
 	};
+};
 
+describe("TaskList", () => {
 	test("should render the component correctly", () => {
 		setupRenderTaskList();
 
