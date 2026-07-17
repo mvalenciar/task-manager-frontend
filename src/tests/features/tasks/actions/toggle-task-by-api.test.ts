@@ -37,4 +37,18 @@ describe("toggle-task-by-api", () => {
 			},
 		);
 	});
+
+	test("should fail toggle-task when api is fail", async () => {
+		localStorage.setItem("task_token", "test_token");
+		const taskId = 1;
+		const token = localStorage.getItem("task_token") as string;
+		const completed = false;
+		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+		vi.mocked(taskApi.put).mockRejectedValue(new Error("Fail updating task"));
+
+		const result = await toggleTaskByApi(taskId, completed, token);
+
+		expect(result).toBe(false);
+	});
 });
