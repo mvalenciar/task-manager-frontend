@@ -33,4 +33,17 @@ describe("taskApi", () => {
 			},
 		});
 	});
+
+	test("should return false when delete task is fail", async () => {
+		localStorage.setItem("task_token", "test_token");
+		const taskId: number = 1;
+		const token: string = localStorage.getItem("task_token") as string;
+		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+		vi.mocked(taskApi.delete).mockRejectedValue(
+			new Error("Error deleting task"),
+		);
+		const result = await deleteTaskByApi(taskId, token);
+
+		expect(result).toBe(false);
+	});
 });
