@@ -38,4 +38,18 @@ describe("create-task-by-api", () => {
 			},
 		);
 	});
+
+	test("should return false when the api is fail", async () => {
+		localStorage.setItem("task_token", "test_token");
+		const title = "Task_1";
+		const description = "Description_1";
+		const token = localStorage.getItem("task_token") as string;
+		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+		vi.mocked(taskApi.post).mockRejectedValue(new Error("Error creating task"));
+
+		const result = await createTaskByApi(token, title, description);
+		expect(result).toBe(false);
+		consoleSpy.mockRestore();
+	});
 });
