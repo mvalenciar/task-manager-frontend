@@ -55,6 +55,16 @@ const Register = () => {
 				<form onSubmit={handleSubmit}>
 					<div className="flex flex-col gap-6">
 						<div className="grid gap-2">
+							<Label htmlFor="alias">Alias</Label>
+							<Input
+								id="alias"
+								type="text"
+								placeholder="@example"
+								required
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
+						<div className="grid gap-2">
 							<Label htmlFor="email">Email</Label>
 							<Input
 								id="email"

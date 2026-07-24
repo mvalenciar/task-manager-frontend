@@ -5,6 +5,8 @@ import Dashboard from "@/views/Dashboard/Dashboard";
 import Home from "@/views/Home/Home";
 import Login from "@/views/Login/Login";
 import Register from "@/views/Register/Register";
+import VerifyEmail from "@/views/VerifyEmail/VerifyEmail";
+
 import ProtectedRoute from "./ProtectedRoute";
 
 export const AppRoutes = () => {
@@ -15,6 +17,7 @@ export const AppRoutes = () => {
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
+				<Route path="/verify-email" element={<VerifyEmail />} />
 
 				{/* 🔒 RUTAS PROTEGIDAS */}
 				<Route element={<ProtectedRoute />}>
