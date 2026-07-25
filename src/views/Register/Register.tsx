@@ -1,104 +1,29 @@
-import axios from "axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { taskApi } from "@/services/api";
+import RegisterForm from "@/features/auth/components/RegisterForm";
+import { useUser } from "@/features/auth/hooks/useUser";
 
 const Register = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const { setAlias, setEmail, setPassword, executeRegister } = useUser();
 
-		try {
-			const response = await taskApi.post("/users/register", {
-				email,
-				password,
-			});
+	const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		const success = await executeRegister(e);
 
-			alert(response.data.message);
-
+		// Si el hook procesó el registro con éxito en el backend, redirigimos
+		if (success) {
 			navigate("/login");
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				const errorMessage =
-					error.response?.data?.error || "Error al conectar con el servidor.";
-				alert(`❌ ${errorMessage}`);
-			}
-
-			console.log(error);
 		}
 	};
 
 	return (
-		<Card className="w-full max-w-sm mx-auto my-5">
-			<CardHeader>
-				<CardTitle>Crea tu cuenta</CardTitle>
-				<CardDescription>
-					Ingresa tu email y contraseña para crear una cuenta de usuario.
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<form onSubmit={handleSubmit}>
-					<div className="flex flex-col gap-6">
-						<div className="grid gap-2">
-							<Label htmlFor="alias">Alias</Label>
-							<Input
-								id="alias"
-								type="text"
-								placeholder="@example"
-								required
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="email@example.com"
-								required
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="password">Contraseña</Label>
-								<a
-									href="https://example.com"
-									className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-								>
-									olvidaste tu contraseña?
-								</a>
-							</div>
-							<Input
-								aria-label="password"
-								id="password"
-								type="password"
-								required
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</div>
-						<div className="grid gap-2">
-							<Button>Crear cuenta</Button>
-						</div>
-					</div>
-				</form>
-			</CardContent>
-		</Card>
+		<RegisterForm
+			setAlias={setAlias}
+			setEmail={setEmail}
+			setPassword={setPassword}
+			handleSubmit={onHandleSubmit}
+		/>
 	);
 };
 
