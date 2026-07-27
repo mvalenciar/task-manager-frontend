@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -9,40 +11,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-interface RegisterFormProps {
-	setAlias: (alias: string) => void;
+interface LoginFormProps {
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
 	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const RegisterForm = ({
-	setAlias,
+export const LoginForm = ({
 	setEmail,
 	setPassword,
 	handleSubmit,
-}: RegisterFormProps) => {
+}: LoginFormProps) => {
 	return (
 		<Card className="w-full max-w-sm mx-auto my-5">
 			<CardHeader>
-				<CardTitle>Crea tu cuenta</CardTitle>
+				<CardTitle>Inicia Sesión</CardTitle>
 				<CardDescription>
-					Ingresa tu email y contraseña para crear una cuenta de usuario.
+					Ingresa tu email y contraseña para ingresar a tu cuenta.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<form onSubmit={handleSubmit}>
 					<div className="flex flex-col gap-6">
-						<div className="grid gap-2">
-							<Label htmlFor="alias">Alias</Label>
-							<Input
-								id="alias"
-								type="text"
-								placeholder="@example"
-								required
-								onChange={(e) => setAlias(e.target.value)}
-							/>
-						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="email">Email</Label>
 							<Input
@@ -72,7 +62,10 @@ const RegisterForm = ({
 							/>
 						</div>
 						<div className="grid gap-2">
-							<Button>Crear cuenta</Button>
+							<Button>Ingresar</Button>
+						</div>
+						<div className="grid gap-2">
+							<Link to="/register">¿No tienes cuenta? Regístrate aquí</Link>
 						</div>
 					</div>
 				</form>
@@ -80,5 +73,3 @@ const RegisterForm = ({
 		</Card>
 	);
 };
-
-export default RegisterForm;

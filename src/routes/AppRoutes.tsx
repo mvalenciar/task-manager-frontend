@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import DotPattern from "@/layout/dot-pattern";
 import Dashboard from "@/views/Dashboard/Dashboard";
+import ForgotPassword from "@/views/ForgotPassword/ForgotPassword";
 import Home from "@/views/Home/Home";
 import Login from "@/views/Login/Login";
 import Register from "@/views/Register/Register";
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/verify-email" element={<VerifyEmail />} />
+				<Route path="/forgot-password" element={<ForgotPassword />} />
 
 				{/* 🔒 RUTAS PROTEGIDAS */}
 				<Route element={<ProtectedRoute />}>
