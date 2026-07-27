@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react"; // 🎯 1. CORREGIDO: Importamos useRef
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import VerifyEmailCard from "@/features/auth/components/VerifyEmailCard";
-
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const VerifyEmail = () => {
@@ -13,16 +12,21 @@ const VerifyEmail = () => {
 
 	const token = searchParams.get("token");
 
-	// Ejecuta la verificación de email cuando se cargue la página
+	// 🎯 2. Creamos una referencia persistente que arranca en false
+	const hasDispatched = useRef(false);
+
 	useEffect(() => {
-		if (!token) {
-			return;
-		}
+		if (!token) return;
+
+		// 🎯 3. CANDADO REAL: Si la referencia ya es true, bloqueamos la ejecución de inmediato
+		if (hasDispatched.current) return;
+
+		// Marcamos que la petición ya va en viaje para la próxima milésima de segundo
+		hasDispatched.current = true;
 
 		executeEmailVerification(token);
 	}, [token, executeEmailVerification]);
 
-	// Si el estado es "success", redirige al /login después de 3 segundos de forma automática
 	useEffect(() => {
 		if (status === "success") {
 			const timer = setTimeout(() => {
