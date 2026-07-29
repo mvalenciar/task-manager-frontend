@@ -9,6 +9,7 @@ import Register from "@/views/Register/Register";
 import VerifyEmail from "@/views/VerifyEmail/VerifyEmail";
 
 import ProtectedRoute from "./ProtectedRoute";
+import ResetPassword from "@/views/ResetPassword/ResetPassword";
 
 export const AppRoutes = () => {
 	return (
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
 				<Route path="/register" element={<Register />} />
 				<Route path="/verify-email" element={<VerifyEmail />} />
 				<Route path="/forgot-password" element={<ForgotPassword />} />
+				<Route path="/reset-password" element={<ResetPassword />} />
 
 				{/* 🔒 RUTAS PROTEGIDAS */}
 				<Route element={<ProtectedRoute />}>

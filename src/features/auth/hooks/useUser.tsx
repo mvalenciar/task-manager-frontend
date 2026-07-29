@@ -4,6 +4,7 @@ import { useState } from "react";
 import { forgotPasswordByApi } from "../actions/forgot-password-by-api";
 import { loginByApi } from "../actions/login-by-api";
 import { registerByApi } from "../actions/register-by-api";
+import { resetPasswordByApi } from "../actions/reset-password-by-api";
 
 export const useUser = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +72,26 @@ export const useUser = () => {
 		}
 	};
 
+	const executeResetPassword = async (
+		token: string,
+		e: React.FormEvent<HTMLFormElement>,
+	): Promise<boolean> => {
+		e.preventDefault();
+		setIsLoading(true);
+
+		try {
+			const result = await resetPasswordByApi(token, password);
+
+			alert(result.message);
+			return result.success;
+		} catch (error) {
+			console.error(error);
+			return false;
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return {
 		// Values
 		alias,
@@ -86,5 +107,6 @@ export const useUser = () => {
 		executeRegister,
 		executeLogin,
 		executeForgotPassword,
+		executeResetPassword,
 	};
 };

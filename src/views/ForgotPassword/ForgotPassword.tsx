@@ -8,11 +8,13 @@ const ForgotPassword = () => {
 		await executeForgotPassword(e);
 	};
 	return (
-		<ForgotPasswordForm
-			setEmail={setEmail}
-			handleSubmit={onHandleSubmit}
-			isLoading={isLoading}
-		/>
+		<div className="flex min-h-screen items-center justify-center p-4">
+			<ForgotPasswordForm
+				setEmail={setEmail}
+				handleSubmit={onHandleSubmit}
+				isLoading={isLoading}
+			/>
+		</div>
 	);
 };
 
