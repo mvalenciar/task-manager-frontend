@@ -6,10 +6,10 @@ import ForgotPassword from "@/views/ForgotPassword/ForgotPassword";
 import Home from "@/views/Home/Home";
 import Login from "@/views/Login/Login";
 import Register from "@/views/Register/Register";
+import ResetPassword from "@/views/ResetPassword/ResetPassword";
 import VerifyEmail from "@/views/VerifyEmail/VerifyEmail";
 
 import ProtectedRoute from "./ProtectedRoute";
-import ResetPassword from "@/views/ResetPassword/ResetPassword";
 
 export const AppRoutes = () => {
 	return (
