@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 
+import { forgotPasswordByApi } from "../actions/forgot-password-by-api";
 import { loginByApi } from "../actions/login-by-api";
 import { registerByApi } from "../actions/register-by-api";
-import { forgotPasswordByApi } from "../actions/forgot-password-by-api";
 
 export const useUser = () => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [alias, setAlias] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const executeRegister = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+		setIsLoading(true);
 		try {
 			const response = await registerByApi(alias, email, password);
 			alert(response.data.message || "¡Registro exitoso!");
@@ -26,11 +27,14 @@ export const useUser = () => {
 				console.error(error);
 			}
 			return false;
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	const executeLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setIsLoading(true);
 		try {
 			const response = await loginByApi(email, password);
 			localStorage.setItem("task_token", response.data.token);
@@ -45,6 +49,8 @@ export const useUser = () => {
 				console.error(error);
 			}
 			return false;
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -52,6 +58,7 @@ export const useUser = () => {
 		e: React.FormEvent<HTMLFormElement>,
 	): Promise<boolean> => {
 		e.preventDefault();
+		setIsLoading(true);
 		try {
 			const result = await forgotPasswordByApi(email);
 			alert(result.message);
@@ -59,6 +66,8 @@ export const useUser = () => {
 		} catch (error) {
 			console.error(error);
 			return false;
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -67,8 +76,10 @@ export const useUser = () => {
 		alias,
 		email,
 		password,
+		isLoading,
 
 		// Actions
+		setIsLoading,
 		setAlias,
 		setEmail,
 		setPassword,

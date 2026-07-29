@@ -6,7 +6,8 @@ import { useUser } from "@/features/auth/hooks/useUser";
 const Register = () => {
 	const navigate = useNavigate();
 
-	const { setAlias, setEmail, setPassword, executeRegister } = useUser();
+	const { setAlias, setEmail, setPassword, executeRegister, isLoading } =
+		useUser();
 
 	const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		const success = await executeRegister(e);
@@ -23,6 +24,7 @@ const Register = () => {
 			setEmail={setEmail}
 			setPassword={setPassword}
 			handleSubmit={onHandleSubmit}
+			isLoading={isLoading}
 		/>
 	);
 };

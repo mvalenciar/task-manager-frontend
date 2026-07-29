@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -14,6 +15,7 @@ interface RegisterFormProps {
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
 	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+	isLoading: boolean;
 }
 
 const RegisterForm = ({
@@ -21,6 +23,7 @@ const RegisterForm = ({
 	setEmail,
 	setPassword,
 	handleSubmit,
+	isLoading,
 }: RegisterFormProps) => {
 	return (
 		<Card className="w-full max-w-sm mx-auto my-5">
@@ -72,7 +75,18 @@ const RegisterForm = ({
 							/>
 						</div>
 						<div className="grid gap-2">
-							<Button>Crear cuenta</Button>
+							<Button type="submit" disabled={isLoading}>
+								{isLoading ? (
+									<div className="flex items-center justify-center gap-2">
+										<LoaderCircle className="animate-spin" />
+										<span className="animate-pulse">
+											Procesando petición...
+										</span>
+									</div>
+								) : (
+									"Crear cuenta"
+								)}
+							</Button>
 						</div>
 					</div>
 				</form>

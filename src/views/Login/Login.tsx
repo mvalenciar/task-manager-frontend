@@ -5,7 +5,7 @@ import { LoginForm } from "@/features/auth/components/LoginForm";
 import { useUser } from "@/features/auth/hooks/useUser";
 
 const Login = () => {
-	const { setEmail, setPassword, executeLogin } = useUser();
+	const { isLoading, setEmail, setPassword, executeLogin } = useUser();
 
 	const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ const Login = () => {
 			setEmail={setEmail}
 			setPassword={setPassword}
 			handleSubmit={onHandleSubmit}
+			isLoading={isLoading}
 		/>
 	);
 };

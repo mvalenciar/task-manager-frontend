@@ -2,13 +2,17 @@ import { ForgotPasswordForm } from "@/features/auth/components/ForgotPasswordFor
 import { useUser } from "@/features/auth/hooks/useUser";
 
 const ForgotPassword = () => {
-	const { setEmail, executeForgotPassword } = useUser();
+	const { setEmail, executeForgotPassword, isLoading } = useUser();
 
 	const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		const success = await executeForgotPassword(e);
+		await executeForgotPassword(e);
 	};
 	return (
-		<ForgotPasswordForm setEmail={setEmail} handleSubmit={onHandleSubmit} />
+		<ForgotPasswordForm
+			setEmail={setEmail}
+			handleSubmit={onHandleSubmit}
+			isLoading={isLoading}
+		/>
 	);
 };
 
