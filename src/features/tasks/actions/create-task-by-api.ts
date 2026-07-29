@@ -2,23 +2,14 @@ import { taskApi } from "@/services/api";
 
 // 📐 Esta función recibe el token del usuario y los datos del formulario para guardarlos en SQLite
 export const createTaskByApi = async (
-	token: string,
 	title: string,
 	description: string,
 ): Promise<boolean> => {
 	try {
-		await taskApi.post(
-			"/tasks",
-			{
-				title,
-				description,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			},
-		);
+		await taskApi.post("/tasks", {
+			title,
+			description,
+		});
 
 		return true;
 	} catch (error) {

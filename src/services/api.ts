@@ -7,6 +7,24 @@ export const taskApi = axios.create({
 	},
 });
 
+//Interceptor de peticiones
+taskApi.interceptors.request.use(
+	(config) => {
+		//1. Obtenemos el token del local storage
+		const token = localStorage.getItem("task_token");
+
+		// 2. Si el token existe, se lo inyectamos de forma estricta al header Authorization
+		if (token && config.headers) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	},
+);
+
+//Interceptor de respuesta actual (Encargado de limpiar el local storage en caso de error 401)
 taskApi.interceptors.response.use(
 	(response) => response,
 	async (error) => {

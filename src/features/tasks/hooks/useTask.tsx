@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCallback, useState } from "react";
 
 import type { Task } from "@/interfaces/task.interface";
@@ -13,11 +14,8 @@ export const useTask = () => {
 
 	const getTaskList = useCallback(async () => {
 		try {
-			const token = localStorage.getItem("task_token");
-			if (token) {
-				const taskList = await getTasksByApi(token);
-				setTasks(taskList);
-			}
+			const taskList = await getTasksByApi();
+			setTasks(taskList);
 		} catch (error) {
 			console.log("Error al obtener la lista de tareas", error);
 		}
@@ -25,13 +23,7 @@ export const useTask = () => {
 
 	const createTask = async (title: string, description: string) => {
 		try {
-			const token = localStorage.getItem("task_token");
-
-			if (!token) {
-				return;
-			}
-
-			const isTaskCreated = await createTaskByApi(token, title, description);
+			const isTaskCreated = await createTaskByApi(title, description);
 
 			if (isTaskCreated) {
 				alert("✅ Tarea creada con éxito!");
@@ -39,25 +31,32 @@ export const useTask = () => {
 				await getTaskList();
 			}
 		} catch (error) {
-			console.error("❌ Error al crear la tarea", error);
+			if (axios.isAxiosError(error)) {
+				const errorMessage =
+					error.response?.data?.error || "Error al conectar con el servidor.";
+				alert(`❌ ${errorMessage}`);
+			} else {
+				console.error("❌ Error al crear la tarea", error);
+			}
 		}
 	};
 
 	const deleteTask = async (taskId: number) => {
 		try {
-			const token = localStorage.getItem("task_token");
-			if (!token) {
-				return;
-			}
-
-			const isTaskDeleted = await deleteTaskByApi(taskId, token);
+			const isTaskDeleted = await deleteTaskByApi(taskId);
 
 			if (isTaskDeleted) {
 				alert("✅ Tarea eliminada con éxito!");
 				await getTaskList();
 			}
 		} catch (error) {
-			console.error("❌ Error al eliminar la tarea", error);
+			if (axios.isAxiosError(error)) {
+				const errorMessage =
+					error.response?.data?.error || "Error al conectar con el servidor.";
+				alert(`❌ ${errorMessage}`);
+			} else {
+				console.error("❌ Error al eliminar la tarea", error);
+			}
 		}
 	};
 
@@ -67,17 +66,7 @@ export const useTask = () => {
 		description: string,
 	) => {
 		try {
-			const token = localStorage.getItem("task_token");
-			if (!token) {
-				return;
-			}
-
-			const isTaskUpdated = await updateTaskByApi(
-				taskId,
-				title,
-				description,
-				token,
-			);
+			const isTaskUpdated = await updateTaskByApi(taskId, title, description);
 
 			if (isTaskUpdated) {
 				alert("✅ Tarea actualizada con éxito!");
@@ -89,12 +78,7 @@ export const useTask = () => {
 	};
 
 	const toggleTask = async (taskId: number, completed: boolean) => {
-		const token = localStorage.getItem("task_token");
-		if (!token) {
-			return;
-		}
-
-		const isToggled = await toggleTaskByApi(taskId, completed, token);
+		const isToggled = await toggleTaskByApi(taskId, completed);
 
 		if (isToggled) {
 			alert("✅ Tarea actualizada con éxito!");
@@ -105,11 +89,8 @@ export const useTask = () => {
 	return {
 		// values
 		tasks,
-		//title,
-		//description,
+
 		// actions
-		//setTitle,
-		//setDescription,
 		getTaskList,
 		createTask,
 		deleteTask,
