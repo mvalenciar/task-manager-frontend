@@ -5,16 +5,31 @@ import CustomHeader from "@/components/custom/CustomHeader";
 import DropdownMenuAvatar from "@/features/tasks/components/DropdownMenuAvatar";
 import TaskForm from "@/features/tasks/components/TaskForm";
 import TaskList from "@/features/tasks/components/TaskList";
+import { TasksPaginationController } from "@/features/tasks/components/TasksPaginationController";
+
 //Custom Hooks
+import { MOCK_TASKS } from "@/features/tasks/factory/tasks.factory";
+import { usePagination } from "@/features/tasks/hooks/usePagination";
 import { useTask } from "@/features/tasks/hooks/useTask";
 
 const Dashboard = () => {
 	const { tasks, getTaskList, createTask, deleteTask, updateTask, toggleTask } =
 		useTask();
 
-	useEffect(() => {
-		getTaskList();
-	}, [getTaskList]);
+	const {
+		totalPages,
+		currentPage,
+		startIndex,
+		endIndex,
+		changeToNextPage,
+		changeToPreviousPage,
+		changeToLastPage,
+		changeToFirstPage,
+	} = usePagination(tasks);
+
+	// useEffect(() => {
+	// 	getTaskList();
+	// }, [getTaskList]);
 	return (
 		<div className="min-h-screen">
 			<div className="flex justify-between items-center">
@@ -32,9 +47,19 @@ const Dashboard = () => {
 				<div className="md:col-span-2">
 					<TaskList
 						tasks={tasks}
+						startIndex={startIndex}
+						endIndex={endIndex}
 						onDeleteTask={deleteTask}
 						onUpdateTask={updateTask}
 						onToggleTask={toggleTask}
+					/>
+					<TasksPaginationController
+						totalPages={totalPages}
+						currentPage={currentPage}
+						changeToFirstPage={changeToFirstPage}
+						changeToLastPage={changeToLastPage}
+						changeToNextPage={changeToNextPage}
+						changeToPreviousPage={changeToPreviousPage}
 					/>
 				</div>
 			</div>

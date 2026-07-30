@@ -8,9 +8,10 @@ import { deleteTaskByApi } from "../actions/delete-task-by-api";
 import { getTasksByApi } from "../actions/get-tasks-by-api";
 import { toggleTaskByApi } from "../actions/toggle-task-by-api";
 import { updateTaskByApi } from "../actions/update-task-by-api";
+import { MOCK_TASKS } from "../factory/tasks.factory";
 
 export const useTask = () => {
-	const [tasks, setTasks] = useState<Task[]>([]);
+	const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
 
 	const getTaskList = useCallback(async () => {
 		try {
