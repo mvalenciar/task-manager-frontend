@@ -17,6 +17,7 @@ export const useUser = () => {
 		setIsLoading(true);
 		try {
 			const response = await registerByApi(alias, email, password);
+
 			alert(response.data.message || "¡Registro exitoso!");
 			return true; // Retornamos verdadero para avisarle a la vista que puede navegar
 		} catch (error) {

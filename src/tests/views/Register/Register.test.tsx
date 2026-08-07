@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { describe, expect, test, vi } from "vitest";
 
 import { registerByApi } from "@/features/auth/actions/register-by-api";
-import { taskApi } from "@/services/api";
+
 import Register from "@/views/Register/Register";
 
 vi.mock("@/features/auth/actions/register-by-api", () => ({
@@ -49,6 +49,12 @@ describe("Register", () => {
 	});
 
 	test("should call registerByApi when form is submitted", async () => {
+		vi.mocked(registerByApi).mockResolvedValue({
+			data: {
+				message: "¡Usuario registrado con éxito en la base de datos!",
+			},
+		} as any);
+
 		const { aliasField, emailField, passwordField, button, user } =
 			setupRenderRegister();
 
