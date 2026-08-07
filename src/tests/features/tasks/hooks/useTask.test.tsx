@@ -65,8 +65,6 @@ describe("useTask", () => {
 	});
 
 	test("should fetch and set tasks correctly when getTaskList is called", async () => {
-		localStorage.setItem("task_token", "test_token");
-
 		vi.mocked(getTasksByApi).mockResolvedValue(mockApiResponse);
 
 		const { result } = renderUseTask();
@@ -83,6 +81,8 @@ describe("useTask", () => {
 	});
 
 	test("should call createTaskByApi and refresh the list when createTask is successful", async () => {
+		const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
+
 		vi.mocked(createTaskByApi).mockResolvedValue(true);
 		vi.mocked(getTasksByApi).mockResolvedValue(mockApiResponse);
 
@@ -98,9 +98,13 @@ describe("useTask", () => {
 			);
 			expect(getTasksByApi).toHaveBeenCalledWith(page, limit);
 		});
+
+		alertSpy.mockRestore();
 	});
 
 	test("should call deleteTaskByApi and refresh the list when deleteTask is successful", async () => {
+		const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
+
 		vi.mocked(deleteTaskByApi).mockResolvedValue(true);
 		vi.mocked(getTasksByApi).mockResolvedValue(mockApiResponse);
 
@@ -113,9 +117,13 @@ describe("useTask", () => {
 			expect(deleteTaskByApi).toHaveBeenCalledWith(1);
 			expect(getTasksByApi).toHaveBeenCalledWith(page, limit);
 		});
+
+		alertSpy.mockRestore();
 	});
 
 	test("should call updateTaskByApi and refresh the list when updateTask is successful", async () => {
+		const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
+
 		vi.mocked(updateTaskByApi).mockResolvedValue(true);
 		vi.mocked(getTasksByApi).mockResolvedValue(mockApiResponse);
 
@@ -132,9 +140,13 @@ describe("useTask", () => {
 			);
 			expect(getTasksByApi).toHaveBeenCalledWith(page, limit);
 		});
+
+		alertSpy.mockRestore();
 	});
 
 	test("should call toggleTaskByApi and refresh the list when toggleTask is successful", async () => {
+		const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
+
 		vi.mocked(toggleTaskByApi).mockResolvedValue(true);
 		vi.mocked(getTasksByApi).mockResolvedValue(mockApiResponse);
 
@@ -147,5 +159,7 @@ describe("useTask", () => {
 			expect(toggleTaskByApi).toHaveBeenLastCalledWith(1, true);
 			expect(getTasksByApi).toHaveBeenCalled();
 		});
+
+		alertSpy.mockRestore();
 	});
 });
