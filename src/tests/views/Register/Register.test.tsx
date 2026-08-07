@@ -4,13 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import { describe, expect, test, vi } from "vitest";
 
+import { registerByApi } from "@/features/auth/actions/register-by-api";
 import { taskApi } from "@/services/api";
 import Register from "@/views/Register/Register";
 
-vi.mock("@/services/api", () => ({
-	taskApi: {
-		post: vi.fn(),
-	},
+vi.mock("@/features/auth/actions/register-by-api", () => ({
+	registerByApi: vi.fn(),
 }));
 
 const setupRenderRegister = () => {
@@ -20,6 +19,7 @@ const setupRenderRegister = () => {
 		</BrowserRouter>,
 	);
 	return {
+		aliasField: screen.getByPlaceholderText("@example"),
 		emailField: screen.getByPlaceholderText("email@example.com"),
 		passwordField: screen.getByLabelText("Contraseña"),
 		button: screen.getByRole("button", { name: "Crear cuenta" }),
@@ -29,9 +29,10 @@ const setupRenderRegister = () => {
 
 describe("Register", () => {
 	test("should component render", () => {
-		const { emailField, passwordField, button } = setupRenderRegister();
-
+		const { aliasField, emailField, passwordField, button } =
+			setupRenderRegister();
 		expect(screen.getByText("Crea tu cuenta")).toBeInTheDocument();
+		expect(aliasField).toBeInTheDocument();
 		expect(emailField).toBeInTheDocument();
 		expect(passwordField).toBeInTheDocument();
 		expect(button).toBeInTheDocument();
@@ -47,21 +48,20 @@ describe("Register", () => {
 		expect((passwordField as HTMLInputElement).value).toBe("test");
 	});
 
-	test("should call taskApi.post when form is submitted", async () => {
-		const { emailField, passwordField, button, user } = setupRenderRegister();
+	test("should call registerByApi when form is submitted", async () => {
+		const { aliasField, emailField, passwordField, button, user } =
+			setupRenderRegister();
 
-		vi.mocked(taskApi.post).mockResolvedValue({
-			data: { message: "¡Usuario registrado con éxito en la base de datos!" },
-		});
-
+		await user.type(aliasField, "aliasV");
 		await user.type(emailField, "test@test.com");
 		await user.type(passwordField, "test");
 		await user.click(button);
 
-		expect(taskApi.post).toHaveBeenCalledTimes(1);
-		expect(taskApi.post).toHaveBeenCalledWith("/users/register", {
-			email: "test@test.com",
-			password: "test",
-		});
+		expect(registerByApi).toHaveBeenCalledTimes(1);
+		expect(registerByApi).toHaveBeenCalledWith(
+			"aliasV",
+			"test@test.com",
+			"test",
+		);
 	});
 });
