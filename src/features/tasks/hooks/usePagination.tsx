@@ -1,12 +1,10 @@
 import { useState } from "react";
-import type { Task } from "@/interfaces/task.interface";
 
-export const usePagination = (tasks: Task[]) => {
+export const usePagination = (totalTasksCount: number) => {
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 10;
-	const totalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
-	const startIndex = (currentPage - 1) * itemsPerPage;
-	const endIndex = itemsPerPage * currentPage;
+	const itemsPerPage = 5;
+
+	const totalPages = Math.max(1, Math.ceil(totalTasksCount / itemsPerPage));
 
 	const changeToNextPage = () => {
 		if (currentPage === totalPages) return;
@@ -22,7 +20,7 @@ export const usePagination = (tasks: Task[]) => {
 
 	const changeToFirstPage = () => {
 		if (currentPage === 1) return;
-		console.log("changeToFirstPage");
+
 		setCurrentPage(1);
 	};
 
@@ -34,9 +32,8 @@ export const usePagination = (tasks: Task[]) => {
 	return {
 		// Values
 		currentPage,
+		itemsPerPage,
 		totalPages,
-		startIndex,
-		endIndex,
 
 		// Actions
 		changeToNextPage,

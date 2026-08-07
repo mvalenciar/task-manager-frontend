@@ -8,28 +8,34 @@ import TaskList from "@/features/tasks/components/TaskList";
 import { TasksPaginationController } from "@/features/tasks/components/TasksPaginationController";
 
 //Custom Hooks
-import { MOCK_TASKS } from "@/features/tasks/factory/tasks.factory";
+
 import { usePagination } from "@/features/tasks/hooks/usePagination";
 import { useTask } from "@/features/tasks/hooks/useTask";
 
 const Dashboard = () => {
-	const { tasks, getTaskList, createTask, deleteTask, updateTask, toggleTask } =
-		useTask();
+	const {
+		tasks,
+		totalTasks,
+		getTaskList,
+		createTask,
+		deleteTask,
+		updateTask,
+		toggleTask,
+	} = useTask();
 
 	const {
 		totalPages,
 		currentPage,
-		startIndex,
-		endIndex,
+		itemsPerPage,
 		changeToNextPage,
 		changeToPreviousPage,
 		changeToLastPage,
 		changeToFirstPage,
-	} = usePagination(tasks);
+	} = usePagination(totalTasks);
 
-	// useEffect(() => {
-	// 	getTaskList();
-	// }, [getTaskList]);
+	useEffect(() => {
+		getTaskList(currentPage, itemsPerPage);
+	}, [getTaskList, currentPage, itemsPerPage]);
 	return (
 		<div className="min-h-screen">
 			<div className="flex justify-between items-center">
@@ -42,16 +48,24 @@ const Dashboard = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto p-4 md:p-6">
 				<div className="md:col-span-1">
-					<TaskForm onCreateTask={createTask} />
+					<TaskForm
+						onCreateTask={(title, description) =>
+							createTask(title, description, currentPage, itemsPerPage)
+						}
+					/>
 				</div>
 				<div className="md:col-span-2">
 					<TaskList
 						tasks={tasks}
-						startIndex={startIndex}
-						endIndex={endIndex}
-						onDeleteTask={deleteTask}
-						onUpdateTask={updateTask}
-						onToggleTask={toggleTask}
+						onDeleteTask={(taskId: number) =>
+							deleteTask(taskId, currentPage, itemsPerPage)
+						}
+						onUpdateTask={(taskId, title, desc) =>
+							updateTask(taskId, title, desc, currentPage, itemsPerPage)
+						}
+						onToggleTask={(taskId, completed) =>
+							toggleTask(taskId, completed, currentPage, itemsPerPage)
+						}
 					/>
 					<TasksPaginationController
 						totalPages={totalPages}

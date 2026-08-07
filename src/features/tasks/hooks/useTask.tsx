@@ -8,28 +8,35 @@ import { deleteTaskByApi } from "../actions/delete-task-by-api";
 import { getTasksByApi } from "../actions/get-tasks-by-api";
 import { toggleTaskByApi } from "../actions/toggle-task-by-api";
 import { updateTaskByApi } from "../actions/update-task-by-api";
-import { MOCK_TASKS } from "../factory/tasks.factory";
 
 export const useTask = () => {
-	const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
+	const [tasks, setTasks] = useState<Task[]>([]);
+	const [totalTasks, setTotalTasks] = useState(0);
 
-	const getTaskList = useCallback(async () => {
+	const getTaskList = useCallback(async (page: number, limit: number) => {
 		try {
-			const taskList = await getTasksByApi();
-			setTasks(taskList);
+			const response = await getTasksByApi(page, limit);
+
+			setTasks(response.tasks);
+			setTotalTasks(response.meta.totalTasks);
 		} catch (error) {
 			console.log("Error al obtener la lista de tareas", error);
 		}
 	}, []);
 
-	const createTask = async (title: string, description: string) => {
+	const createTask = async (
+		title: string,
+		description: string,
+		page: number,
+		limit: number,
+	) => {
 		try {
 			const isTaskCreated = await createTaskByApi(title, description);
 
 			if (isTaskCreated) {
 				alert("✅ Tarea creada con éxito!");
 
-				await getTaskList();
+				await getTaskList(page, limit);
 			}
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
@@ -42,13 +49,13 @@ export const useTask = () => {
 		}
 	};
 
-	const deleteTask = async (taskId: number) => {
+	const deleteTask = async (taskId: number, page: number, limit: number) => {
 		try {
 			const isTaskDeleted = await deleteTaskByApi(taskId);
 
 			if (isTaskDeleted) {
 				alert("✅ Tarea eliminada con éxito!");
-				await getTaskList();
+				await getTaskList(page, limit);
 			}
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
@@ -65,31 +72,39 @@ export const useTask = () => {
 		taskId: number,
 		title: string,
 		description: string,
+		page: number,
+		limit: number,
 	) => {
 		try {
 			const isTaskUpdated = await updateTaskByApi(taskId, title, description);
 
 			if (isTaskUpdated) {
 				alert("✅ Tarea actualizada con éxito!");
-				await getTaskList();
+				await getTaskList(page, limit);
 			}
 		} catch (error) {
 			console.error("❌ Error al actualizar la tarea", error);
 		}
 	};
 
-	const toggleTask = async (taskId: number, completed: boolean) => {
+	const toggleTask = async (
+		taskId: number,
+		completed: boolean,
+		page: number,
+		limit: number,
+	) => {
 		const isToggled = await toggleTaskByApi(taskId, completed);
 
 		if (isToggled) {
 			alert("✅ Tarea actualizada con éxito!");
-			await getTaskList();
+			await getTaskList(page, limit);
 		}
 	};
 
 	return {
 		// values
 		tasks,
+		totalTasks,
 
 		// actions
 		getTaskList,

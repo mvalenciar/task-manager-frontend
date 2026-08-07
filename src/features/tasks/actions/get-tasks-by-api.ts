@@ -1,14 +1,28 @@
-import type { Task } from "@/interfaces/task.interface";
+import type { GetTasksApiResponse, Task } from "@/interfaces/task.interface";
 import { taskApi } from "@/services/api";
 
-export const getTasksByApi = async (): Promise<Task[]> => {
+export const getTasksByApi = async (
+	page: number,
+	limit: number,
+): Promise<GetTasksApiResponse> => {
 	try {
-		const response = await taskApi.get("/tasks");
+		const response = await taskApi.get("/tasks", {
+			params: {
+				page,
+				limit,
+			},
+		});
 
-		const taskList: Task[] = response.data.tasks;
-		return taskList;
+		return response.data;
 	} catch (error) {
 		console.error(error);
-		return [];
+		return {
+			tasks: [],
+			meta: {
+				totalTasks: 0,
+				totalPages: 1,
+				currentPage: 1,
+			},
+		};
 	}
 };

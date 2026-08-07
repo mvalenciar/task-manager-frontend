@@ -30,8 +30,6 @@ import type { Task } from "@/interfaces/task.interface";
 
 interface TaskListProps {
 	tasks: Task[];
-	startIndex: number;
-	endIndex: number;
 	onDeleteTask: (id: number) => Promise<void>;
 	onUpdateTask: (
 		id: number,
@@ -43,8 +41,6 @@ interface TaskListProps {
 
 const TaskList = ({
 	tasks,
-	startIndex,
-	endIndex,
 	onDeleteTask,
 	onUpdateTask,
 	onToggleTask,
@@ -69,7 +65,7 @@ const TaskList = ({
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{tasks.slice(startIndex, endIndex).map((task) => (
+						{tasks.map((task) => (
 							<TableRow key={task.id}>
 								<TableCell className="font-medium">{task.title}</TableCell>
 								<TableCell>{task.description}</TableCell>
