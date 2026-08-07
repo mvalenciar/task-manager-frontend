@@ -11,6 +11,18 @@ const mockTasks = Array.from({ length: 5 }, (_, index) =>
 	}),
 );
 
+const mockApiResponse = {
+	tasks: mockTasks,
+	meta: {
+		totalTasks: mockTasks.length,
+		totalPages: 1,
+		currentPage: 1,
+	},
+};
+
+const page = 1;
+const limit = 5;
+
 vi.mock("@/services/api", () => ({
 	taskApi: {
 		get: vi.fn(),
@@ -20,27 +32,28 @@ vi.mock("@/services/api", () => ({
 describe("get-tasks-by-api", () => {
 	test("should return task list and call api with correct headers when request is successful", async () => {
 		vi.mocked(taskApi.get).mockResolvedValue({
-			data: {
-				tasks: mockTasks,
-			},
+			data: mockApiResponse,
 		});
-		const result = await getTasksByApi("test_token");
+		const result = await getTasksByApi(page, limit);
 
-		expect(result).toEqual(mockTasks);
+		expect(result).toEqual(mockApiResponse);
 		expect(taskApi.get).toHaveBeenCalledTimes(1);
 	});
 
 	test("should return an empty array when the api request fails", async () => {
 		vi.mocked(taskApi.get).mockRejectedValue(new Error("Error fetching tasks"));
 
-		localStorage.setItem("task_token", "test_token");
-
-		const token = localStorage.getItem("task_token") as string;
-
 		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-		const result = await getTasksByApi(token);
+		const result = await getTasksByApi(page, limit);
 
-		expect(result).toEqual([]);
+		expect(result).toEqual({
+			tasks: [],
+			meta: {
+				totalTasks: 0,
+				totalPages: 1,
+				currentPage: 1,
+			},
+		});
 	});
 });
