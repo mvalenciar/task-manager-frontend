@@ -10,46 +10,36 @@ vi.mock("@/services/api", () => ({
 
 describe("update-task-by-api.test", () => {
 	test("should update task successfully", async () => {
-		localStorage.setItem("task_token", "test_token");
 		const taskId: number = 1;
 		const title: string = "updated_tittle";
 		const description: string = "updated_description";
-		const token: string = localStorage.getItem("task_token") as string;
+
 		vi.mocked(taskApi.put).mockResolvedValue({
 			data: {
 				message: "✅ Tarea actualizada con éxito!",
 			},
 		});
 
-		const result = await updateTaskByApi(taskId, title, description, token);
+		const result = await updateTaskByApi(taskId, title, description);
 
 		expect(result).toBe(true);
 		expect(taskApi.put).toHaveBeenCalledTimes(1);
-		expect(taskApi.put).toHaveBeenLastCalledWith(
-			`/tasks/${taskId}`,
-			{
-				title,
-				description,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			},
-		);
+		expect(taskApi.put).toHaveBeenLastCalledWith(`/tasks/${taskId}`, {
+			title,
+			description,
+		});
 	});
 
 	test("should return false when updating task is fail", async () => {
-		localStorage.setItem("task_token", "test_token");
 		const taskId: number = 1;
 		const title: string = "updated_tittle";
 		const description: string = "updated_description";
-		const token: string = localStorage.getItem("task_token") as string;
+
 		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
 		vi.mocked(taskApi.put).mockRejectedValue(new Error("Fail updating task"));
 
-		const result = await updateTaskByApi(taskId, title, description, token);
+		const result = await updateTaskByApi(taskId, title, description);
 
 		expect(result).toBe(false);
 	});
