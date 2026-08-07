@@ -4,7 +4,8 @@ export const usePagination = (totalTasksCount: number) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 5;
 
-	const totalPages = Math.max(1, Math.ceil(totalTasksCount / itemsPerPage));
+	const cleanTotalTasks = Number(totalTasksCount) || 0;
+	const totalPages = Math.max(1, Math.ceil(cleanTotalTasks / itemsPerPage));
 
 	const changeToNextPage = () => {
 		if (currentPage === totalPages) return;
