@@ -54,10 +54,8 @@ const TaskList = ({
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="p-0 sm:p-6">
-				{/* 🎯 CAMBIO 1: Agregamos una altura máxima fija y permitimos scroll vertical y horizontal en combo */}
 				<div className="w-full max-h-[400px] overflow-y-auto overflow-x-auto border rounded-md custom-scrollbar">
 					<Table className="w-full min-w-[700px] border-collapse">
-						{/* 🎯 CAMBIO 2: Hacemos que la cabecera se quede congelada arriba de forma sticky */}
 						<TableHeader className="sticky top-0 bg-background z-10 shadow-sm border-b">
 							<TableRow className="hover:bg-transparent">
 								<TableHead className="w-[25%] bg-background">Tarea</TableHead>
