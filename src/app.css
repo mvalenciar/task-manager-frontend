@@ -1,0 +1,25 @@
+/* 🎯 FORZAR VISIBILIDAD DE LA BARRA DE DESPLAZAMIENTO EN CONTENEDORES CON SCROLL */
+.custom-scrollbar::-webkit-scrollbar {
+	width: 6px; /* Ancho para el scroll vertical */
+	height: 6px; /* Altura para el scroll horizontal */
+	display: block !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: rgba(244, 244, 245, 1); /* Color de fondo gris claro zinc-100 */
+	border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: rgba(161, 161, 170, 1); /* Color del selector gris zinc-400 */
+	border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: rgba(
+		113,
+		113,
+		122,
+		1
+	); /* Color más oscuro zinc-500 al pasar el mouse */
+}
